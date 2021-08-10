@@ -158,10 +158,13 @@ epochs = 10000
 nrn.learn(lr, epochs, x_arr, bra_y)
 
 res_y = []
+bra_slogs = np.zeros([nrn.d[1], 40])
+
 for k in range(x_arr.shape[0]):
     bra_x = np.array(x_arr[k], ndmin = 2)
     a = nrn.make_calculation(bra_x)[0,0]
-    res_y += [a] 
+    res_y += [a]
+    bra_slogs[:, k] = (nrn.layer[2].weights*nrn.layer[1].o.transpose())[:,0]
 # check in graph
 plt.title("SIN")
 plt.xlabel("X")
@@ -171,6 +174,10 @@ plt.ylabel("Y")
 #
 plt.plot(train_X, train_Y, label = "Input", color = 'r')
 plt.plot(train_X, res_y, label = "RESULT", color = 'g')
+
+for k in range(bra_slogs.shape[0]):
+    plt.plot(train_X, bra_slogs[k,:], label = "slog "+str(k), color = 'c')
+
 plt.legend(loc = 2)
 plt.show()
 
