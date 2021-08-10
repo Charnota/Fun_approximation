@@ -1,6 +1,7 @@
 import numpy as np
 import math #mathematics
 import matplotlib.pyplot as plt #GRAPHIKI
+from tqdm import tqdm
 
 #
 class Layer:
@@ -70,7 +71,7 @@ class NN:
         return in_x
         pass
     def learn(self, lr, epochs, x_arr, target_bras_arr):
-        for e in range(epochs):
+        for e in tqdm(range(epochs), desc="learning"):
             for i in range(x_arr.shape[0]):
                 bra_x = np.array(x_arr[i], ndmin = 2)
                 E = target_bras_arr[i,:] - self.make_calculation(bra_x)
